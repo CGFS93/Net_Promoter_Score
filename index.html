@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Points to Goal Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        form {
+            display: inline-block;
+            text-align: left;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Net Promoter Score Calculator</h1>
+
+    <form id="calculatorForm">
+        <label for="promoter">Number of Promoters:</label>
+        <input type="text" id="promoter" required><br>
+
+        <label for="detractor">Number of Detractors:</label>
+        <input type="text" id="detractor" required><br>
+
+        <label for="total_survey">Total Survey Responses:</label>
+        <input type="text" id="total_survey" required><br>
+
+        <label for="goal">Goal Score:</label>
+        <input type="text" id="goal" required><br>
+
+        <input type="button" value="Calculate" onclick="calculatePoints()">
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        function calculatePoints() {
+            try {
+                var promoter = parseFloat(document.getElementById('promoter').value);
+                var detractor = parseFloat(document.getElementById('detractor').value);
+                var totalSurvey = parseFloat(document.getElementById('total_survey').value);
+                var goal = parseFloat(document.getElementById('goal').value);
+
+                if (isNaN(promoter) || isNaN(detractor) || isNaN(totalSurvey) || isNaN(goal)) {
+                    throw new Error("Please enter numbers only.");
+                }
+
+                if (goal < 0) {
+                    document.getElementById('result').innerHTML = "Goal has been exceeded by " + (-goal).toFixed(2);
+                } else {
+                    var remainingPoints = remainingPromoters(promoter, detractor, totalSurvey, goal);
+                    if (remainingPoints >= 0) {
+                        document.getElementById('result').innerHTML = "Remaining promoters to reach the goal: " + remainingPoints.toFixed(2);
+                    } else {
+                        document.getElementById('result').innerHTML = "Goal achieved. Exceeded by " + (-remainingPoints).toFixed(2);
+                    }
+                }
+            } catch (error) {
+                document.getElementById('result').innerHTML = "Error: " + error.message;
+            }
+        }
+
+        function remainingPromoters(promoter, detractor, totalSurvey, goal) {
+            var currentScore = (promoter - detractor) / totalSurvey * 100;
+            var remainingPromotersNeeded = (goal * totalSurvey / 100) - promoter;
+            return remainingPromotersNeeded;
+        }
+    </script>
+
+</body>
+</html>
