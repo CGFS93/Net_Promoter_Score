@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Points to Goal Calculator</title>
+    <title>Net Promoter Score Calculator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,13 +17,19 @@
         #result {
             margin-top: 20px;
         }
+        #pieChartContainer {
+            max-width: 400px;
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+        }
     </style>
 </head>
 <body>
 
     <h1>Net Promoter Score Calculator</h1>
 
-    <form id="calculatorForm">
+    <form id="calculatorForm" onsubmit="event.preventDefault(); calculatePoints();">
         <label for="promoter">Number of Promoters:</label>
         <input type="text" id="promoter" required><br>
 
@@ -36,12 +42,18 @@
         <label for="goal">Goal Score:</label>
         <input type="text" id="goal" required><br>
 
-        <input type="button" value="Calculate" onclick="calculatePoints()">
+        <input type="submit" value="Calculate">
     </form>
 
     <div id="result"></div>
+    <div id="pieChartContainer">
+        <canvas id="pieChart"></canvas>
+    </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        var pieChart;
+
         function calculatePoints() {
             try {
                 var promoter = parseFloat(document.getElementById('promoter').value);
@@ -58,10 +70,11 @@
                 } else {
                     var remainingPoints = remainingPromoters(promoter, detractor, totalSurvey, goal);
                     if (remainingPoints >= 0) {
-                        document.getElementById('result').innerHTML = "Remaining promoters to reach the goal: " + remainingPoints.toFixed(2);
+                        document.getElementById('result').innerHTML = "Remaining promoters to reach goal: " + remainingPoints.toFixed(2);
                     } else {
-                        document.getElementById('result').innerHTML = "Goal achieved. Exceeded by " + (-remainingPoints).toFixed(2);
+                        document.getElementById('result').innerHTML = "Goal achieved! Exceeded by " + (-remainingPoints).toFixed(2);
                     }
+                    updatePieChart(promoter, detractor, totalSurvey, goal, remainingPoints);
                 }
             } catch (error) {
                 document.getElementById('result').innerHTML = "Error: " + error.message;
@@ -72,6 +85,42 @@
             var currentScore = (promoter - detractor) / totalSurvey * 100;
             var remainingPromotersNeeded = (goal * totalSurvey / 100) - promoter;
             return remainingPromotersNeeded;
+        }
+
+        function updatePieChart(promoter, detractor, totalSurvey, goal, remainingPoints) {
+            var ctx = document.getElementById('pieChart').getContext('2d');
+            var progress = promoter / (goal * totalSurvey / 100);
+
+            if (pieChart) {
+                pieChart.destroy(); // Destroy the previous chart instance
+            }
+
+            pieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Points Achieved', remainingPoints >= 0 ? 'Points Left' : 'Extra Points'],
+                    datasets: [{
+                        data: [progress * 100, (1 - progress) * 100],
+                        backgroundColor: [
+                            'rgba(255, 0, 0)',
+                            '#FFCCCB',
+                        ],
+                        borderColor: [
+                            'rgba(0, 0, 0, 0)',
+                            'rgba(0, 0, 0, 0)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    title: {
+                        display: true,
+                        text: 'Progress Towards Goal'
+                    }
+                }
+            });
         }
     </script>
 
