@@ -15,7 +15,7 @@ function calculatePoints() {
         var remainingPoints = goal - currentScore;
 
         // Update the score display
-        document.getElementById('score').innerHTML = "Current Score: " + Math.abs(currentScore).toFixed(2);
+        document.getElementById('score').innerHTML = "Current Score: " + currentScore.toFixed(2);
 
         // Get the score display element
         var scoreDisplay = document.getElementById('score');
