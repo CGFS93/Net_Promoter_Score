@@ -69,7 +69,7 @@
                     document.getElementById('result').innerHTML = "Goal has been exceeded by " + (-goal).toFixed(2);
                 } else {
                     var remainingPoints = remainingPromoters(promoter, detractor, totalSurvey, goal);
-                    if (remainingPoints >= 0) {
+                    if (remainingPoints > 0) {
                         document.getElementById('result').innerHTML = "Remaining promoters to reach goal: " + remainingPoints.toFixed(2);
                     } else {
                         document.getElementById('result').innerHTML = "Goal achieved! Exceeded by " + (-remainingPoints).toFixed(2);
