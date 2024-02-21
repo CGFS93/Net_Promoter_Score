@@ -1,9 +1,7 @@
-        var inputs = document.querySelectorAll('input[type="text"]');
-        inputs.forEach(function(input) {
-            input.addEventListener('focus', function() {
-                this.setAttribute('type', 'number');
-            });
-            input.addEventListener('blur', function() {
-                this.setAttribute('type', 'text');
-            });
-        });
+function triggerReflow() {
+    document.body.style.display = 'none'; // Hide the body temporarily
+    void document.body.offsetWidth; // Trigger a reflow
+    document.body.style.display = ''; // Show the body again
+}
+
+window.addEventListener('focus', triggerReflow); 
