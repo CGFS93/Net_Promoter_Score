@@ -44,7 +44,7 @@
 
         <input type="submit" value="Calculate">
     </form>
-
+    <div id="score"></div>
     <div id="result"></div>
     <div id="pieChartContainer">
         <canvas id="pieChart"></canvas>
@@ -52,76 +52,132 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        var pieChart;
 
-        function calculatePoints() {
-            try {
-                var promoter = parseFloat(document.getElementById('promoter').value);
-                var detractor = parseFloat(document.getElementById('detractor').value);
-                var totalSurvey = parseFloat(document.getElementById('total_survey').value);
-                var goal = parseFloat(document.getElementById('goal').value);
 
-                if (isNaN(promoter) || isNaN(detractor) || isNaN(totalSurvey) || isNaN(goal)) {
-                    throw new Error("Please enter numbers only.");
-                }
 
-                if (goal < 0) {
-                    document.getElementById('result').innerHTML = "Goal has been exceeded by " + (-goal).toFixed(2);
-                } else {
-                    var remainingPoints = remainingPromoters(promoter, detractor, totalSurvey, goal);
-                    if (remainingPoints > 0) {
-                        document.getElementById('result').innerHTML = "Remaining promoters to reach goal: " + remainingPoints.toFixed(2);
-                    } else {
-                        document.getElementById('result').innerHTML = "Goal achieved! Exceeded by " + (-remainingPoints).toFixed(2);
+
+var pieChart;
+
+function calculatePoints() {
+    try {
+        var promoter = parseFloat(document.getElementById('promoter').value);
+        var detractor = parseFloat(document.getElementById('detractor').value);
+        var totalSurvey = parseFloat(document.getElementById('total_survey').value);
+        var goal = parseFloat(document.getElementById('goal').value);
+
+        if (isNaN(promoter) || isNaN(detractor) || isNaN(totalSurvey) || isNaN(goal)) {
+            throw new Error("Please enter numbers only.");
+        }
+
+        var currentScore = ((promoter - detractor) / totalSurvey) * 100;
+        var remainingPoints = goal - currentScore;
+
+        // Update the score display
+        document.getElementById('score').innerHTML = "Current Score: " + Math.abs(currentScore).toFixed(2);
+
+        // Get the score display element
+        var scoreDisplay = document.getElementById('score');
+
+        // Add color based on the score
+        if (currentScore < goal) {
+            scoreDisplay.style.color = 'red';
+        } else if (currentScore > goal) {
+            scoreDisplay.style.color = 'green';
+        } else {
+            scoreDisplay.style.color = 'blue';
+        }
+
+        if (currentScore < goal) {
+            document.getElementById('result').innerHTML = "Remaining promoters to reach goal: " + Math.abs(remainingPoints).toFixed(2);
+        } else if (currentScore > goal) {
+            document.getElementById('result').innerHTML = "Goal achieved! Exceeded by " + Math.abs(remainingPoints).toFixed(2) + " Points";
+        } else if (currentScore == goal) {
+            document.getElementById('result').innerHTML = "Goal has been achieved! ";
+        }  else {
+            document.getElementById('result').innerHTML = "Score is not available";
+        }
+
+        updatePieChart(currentScore, goal);
+
+    } catch (error) {
+        document.getElementById('result').innerHTML = "Error: " + error.message;
+    }
+}
+
+function calculatePercentage(score, target) {
+    if (target === 0) {
+        return 0;
+    } else {
+        return (score / target) * 100;
+    }
+}
+
+function correctPercent(percent) {
+    if (percent > 100) {
+        return 0;
+    } else {
+        return 100 - percent;
+    }
+}
+
+function updatePieChart(currentScore, goal) {
+    var ctx = document.getElementById('pieChart').getContext('2d');
+    var percent = calculatePercentage(currentScore, goal);
+    var percentChange = correctPercent(percent)
+
+    if (pieChart) {
+        pieChart.destroy(); // Destroy the previous chart instance
+    }
+
+    pieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Percentage Achieved', 'Percentage to Goal'],
+            datasets: [{
+                data: [percent, percentChange],
+                backgroundColor: [
+                    'rgba(255, 0, 0)',
+                    '#FFCCCB',
+
+                ],
+                borderColor: [
+                    'rgba(0, 0, 0, 0)',
+                    'rgba(0, 0, 0, 0)',
+
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'Progress Towards Goal'
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            var label = context.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed) {
+                                label += context.parsed.toFixed(2) + '%';
+                            }
+                            return label;
+                        }
                     }
-                    updatePieChart(promoter, detractor, totalSurvey, goal, remainingPoints);
                 }
-            } catch (error) {
-                document.getElementById('result').innerHTML = "Error: " + error.message;
             }
         }
+    });
+}
 
-        function remainingPromoters(promoter, detractor, totalSurvey, goal) {
-            var currentScore = (promoter - detractor) / totalSurvey * 100;
-            var remainingPromotersNeeded = (goal * totalSurvey / 100) - promoter;
-            return remainingPromotersNeeded;
-        }
 
-        function updatePieChart(promoter, detractor, totalSurvey, goal, remainingPoints) {
-            var ctx = document.getElementById('pieChart').getContext('2d');
-            var progress = promoter / (goal * totalSurvey / 100);
 
-            if (pieChart) {
-                pieChart.destroy(); // Destroy the previous chart instance
-            }
 
-            pieChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: ['Points Achieved', remainingPoints >= 0 ? 'Points Left' : 'Extra Points'],
-                    datasets: [{
-                        data: [progress * 100, (1 - progress) * 100],
-                        backgroundColor: [
-                            'rgba(255, 0, 0)',
-                            '#FFCCCB',
-                        ],
-                        borderColor: [
-                            'rgba(0, 0, 0, 0)',
-                            'rgba(0, 0, 0, 0)',
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    title: {
-                        display: true,
-                        text: 'Progress Towards Goal'
-                    }
-                }
-            });
-        }
     </script>
 
 </body>
