@@ -12,16 +12,16 @@
 
     <form id="calculatorForm" onsubmit="event.preventDefault(); calculatePoints();">
         <label for="promoter">Number of Promoters:</label>
-        <input type="number" id="promoter" required><br>
+        <input type="number" id="promoter" inputmode="numeric" pattern="[0-9]*" required><br>
 
         <label for="detractor">Number of Detractors:</label>
-        <input type="number" id="detractor" required><br>
+        <input type="number" id="detractor" inputmode="numeric" pattern="[0-9]*" required><br>
 
         <label for="total_survey">Total Survey Responses:</label>
-        <input type="number" id="total_survey" required><br>
+        <input type="number" id="total_survey" inputmode="numeric" pattern="[0-9]*" required><br>
 
         <label for="goal">Goal Score:</label>
-        <input type="number" id="goal" required><br>
+        <input type="number" id="goal" inputmode="numeric" pattern="[0-9]*" required><br>
 
         <input type="submit" value="Calculate">
     </form>
