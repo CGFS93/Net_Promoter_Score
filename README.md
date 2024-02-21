@@ -1,50 +1,52 @@
-# Net Promoter Score Calculator
+### Net Promoter Score Calculator Documentation
 
-This HTML document contains a simple Points to Goal Calculator implemented using HTML, CSS, and JavaScript. This calculator helps determine the number of promoters needed to reach a specified goal score based on the Net Promoter Score (NPS) survey responses.
+#### Overview
+This web page provides a Net Promoter Score (NPS) calculator, allowing users to input the number of promoters, detractors, total survey responses, and the goal score. The calculator then calculates the current score, displays it along with the result, and visualizes the progress towards the goal using a pie chart.
 
-## HTML Structure
+#### Usage
+1. **Input Fields**: Users can enter the following data into the input fields:
+   - **Number of Promoters**: Number of customers who are promoters.
+   - **Number of Detractors**: Number of customers who are detractors.
+   - **Total Survey Responses**: Total number of survey responses.
+   - **Goal Score**: Desired NPS goal.
 
-The HTML structure consists of:
+2. **Calculate Button**: Clicking the "Calculate" button triggers the calculation process.
 
-- `<!DOCTYPE html>`: Declaration of the document type.
-- `<html lang="en">`: Opening tag of the HTML document with the specified language.
-- `<head>`: Contains metadata and links to external resources.
-  - Meta tags for character set and viewport configuration.
-  - Title of the document.
-  - Internal CSS styles.
-- `<body>`: Body of the HTML document containing the calculator form and result display area.
+3. **Score Display**: The current NPS score is displayed below the input fields. The color of the score changes based on the comparison with the goal:
+   - Red: Score is below the goal.
+   - Green: Score exceeds the goal.
+   - Blue: Score equals the goal.
 
-## Calculator Form
+4. **Result Display**: The result of the calculation is displayed below the score. It shows one of the following messages:
+   - Remaining promoters to reach goal (if the score is below the goal).
+   - Goal achieved! Exceeded by [points] (if the score exceeds the goal).
+   - Goal has been achieved! (if the score equals the goal).
+   - Error message (if any errors occur during calculation).
 
-The calculator form includes input fields for:
+5. **Pie Chart**: A pie chart visualizes the progress towards the goal. It displays two segments:
+   - Percentage Achieved: Represents the current score as a percentage of the goal.
+   - Percentage to Goal: Represents the remaining percentage to reach the goal.
 
-- Number of Promoters
-- Number of Detractors
-- Total Survey Responses
-- Goal Score
+#### Implementation Details
+- The calculation of the NPS score and result display is handled by the `calculatePoints()` function.
+- The pie chart visualization is generated using the Chart.js library.
+- CSS styling is applied to enhance the appearance and layout of the elements.
+- Input validation ensures that only numeric values are accepted in the input fields.
+- Tooltip functionality is implemented for the pie chart to provide additional information when hovering over segments.
 
-There's also a "Calculate" button that triggers the `calculatePoints()` JavaScript function when clicked.
+#### Dependencies
+- **Chart.js**: The Chart.js library is used to create interactive and responsive charts.
 
-## CSS Styling
+#### Styling
+- The page is styled using CSS to ensure readability and aesthetic appeal.
+- Fonts, text alignment, and margins are adjusted to enhance the overall design.
 
-The CSS styles defined in the `<style>` tag are applied to format the calculator form and result display area. It sets the font family, text alignment, and margin for the body, and adjusts the layout of the form and result display.
+#### Compatibility
+- The page is designed to work across modern web browsers and devices with proper responsiveness.
 
-## JavaScript Functionality
+#### Error Handling
+- Errors encountered during calculation are displayed to the user for better understanding and troubleshooting.
 
-The JavaScript section contains two functions:
-
-1. `calculatePoints()`: This function retrieves values from the input fields, validates them, and calculates the remaining promoters needed to reach the goal score. It handles error cases and updates the result display accordingly.
-
-2. `remainingPromoters(promoter, detractor, totalSurvey, goal)`: This function calculates the number of remaining promoters needed based on the provided inputs and the goal score.
-
-## How to Use
-
-To use the Points to Goal Calculator:
-
-1. Enter the number of promoters, detractors, total survey responses, and the goal score.
-2. Click the "Calculate" button.
-3. The result will be displayed below the form, indicating the remaining promoters needed to reach the goal score or if the goal has been exceeded.
-
-Ensure to input only numeric values in the input fields to avoid errors.
-
-This calculator can be embedded into any webpage or used as a standalone tool for calculating NPS-related metrics.
+#### Future Improvements
+- Additional features or visualizations could be added to provide more insights into NPS data.
+- User authentication and data storage capabilities could be incorporated for tracking NPS trends over time.
