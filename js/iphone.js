@@ -5,3 +5,16 @@ function triggerReflow() {
 }
 
 window.addEventListener('focus', triggerReflow); 
+
+function focusNextInput(currentInput, nextInputId) {
+    var nextInput = document.getElementById(nextInputId);
+    if (currentInput.value && nextInput) {
+        nextInput.focus();
+    }
+}
+
+function submitIfLastInput(currentInput) {
+    if (currentInput.value && currentInput === document.getElementById('goal')) {
+        document.getElementById('calculatorForm').submit();
+    }
+}
