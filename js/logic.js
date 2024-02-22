@@ -4,18 +4,19 @@ function calculatePoints() {
     try {
         var promoter = parseFloat(document.getElementById('promoter').value);
         var detractor = parseFloat(document.getElementById('detractor').value);
-        var totalSurvey = parseFloat(document.getElementById('total_survey').value);
+        var neutral = parseFloat(document.getElementById('neutral').value);
         var goal = parseFloat(document.getElementById('goal').value);
 
         if (isNaN(promoter) || isNaN(detractor) || isNaN(totalSurvey) || isNaN(goal)) {
             throw new Error("Please enter numbers only.");
         }
 
+        var totalSurvey = promoter + neutral + detractor;
         var currentScore = ((promoter - detractor) / totalSurvey) * 100;
-        var remainingPoints = goal - currentScore;
+        var remainingPoints = ((currentScore * totalSurvey) + detractor) / 100;
 
         // Update the score display
-        document.getElementById('score').innerHTML = "Current Score: " + currentScore.toFixed(2);
+        document.getElementById('score').innerHTML = "Current Score: " + round(currentScore);
 
         // Get the score display element
         var scoreDisplay = document.getElementById('score');
@@ -30,9 +31,9 @@ function calculatePoints() {
         }
 
         if (currentScore < goal) {
-            document.getElementById('result').innerHTML = "Remaining promoters to reach goal: " + Math.abs(remainingPoints).toFixed(2);
+            document.getElementById('result').innerHTML = "Remaining promoters to reach goal: " + Math.round(Math.abs(remainingPoints));
         } else if (currentScore > goal) {
-            document.getElementById('result').innerHTML = "Goal achieved! Exceeded by " + Math.abs(remainingPoints).toFixed(2) + " Points";
+            document.getElementById('result').innerHTML = "Goal achieved! Exceeded by " + Math.round(Math.abs(remainingPoints)) + " Points";
         } else if (currentScore == goal) {
             document.getElementById('result').innerHTML = "Goal has been achieved! ";
         }  else {
