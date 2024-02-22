@@ -34,7 +34,7 @@ function calculatePoints() {
         if (currentScore < goal) {
             document.getElementById('result').innerHTML = "Remaining promoters to reach goal: " + Math.round(Math.abs(remainingPoints));
         } else if (currentScore > goal) {
-            document.getElementById('result').innerHTML = "Goal achieved! Exceeded by " + Math.round(currentScore - goal).style.color = 'green' + " Points";
+            document.getElementById('result').innerHTML = "Goal achieved! Exceeded by " + Math.round(currentScore - goal) + " Points";
         } else if (currentScore == goal) {
             document.getElementById('result').innerHTML = "Goal has been achieved! ";
         }  else {
