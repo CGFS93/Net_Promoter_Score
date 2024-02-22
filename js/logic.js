@@ -16,7 +16,7 @@ function calculatePoints() {
         var remainingPoints = ((currentScore * totalSurvey) + detractor) / 100;
 
         // Update the score display
-        document.getElementById('score').innerHTML = "Current Score: " + round(currentScore);
+        document.getElementById('score').innerHTML = "Current Score: " + Math.round(currentScore);
 
         // Get the score display element
         var scoreDisplay = document.getElementById('score');
