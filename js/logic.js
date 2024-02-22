@@ -12,8 +12,8 @@ function calculatePoints() {
         }
 
         var totalSurvey = promoter + neutral + detractor;
-        var currentScore = Math.round(((promoter - detractor) / totalSurvey) * 100);
-        var remainingPoints = Math.round(goal * totalSurvey / 100);
+        var currentScore = ((promoter - detractor) / totalSurvey) * 100;
+        var remainingPoints = (goal * totalSurvey) / 100;
 
         // Update the score display
         document.getElementById('score').innerHTML = "Current Score: " + currentScore;
@@ -31,9 +31,9 @@ function calculatePoints() {
         }
 
         if (currentScore < goal) {
-            document.getElementById('result').innerHTML = "Remaining promoters to reach goal: " + remainingPoints;
+            document.getElementById('result').innerHTML = "Remaining promoters to reach goal: " + Math.round(remainingPoints);
         } else if (currentScore > goal) {
-            document.getElementById('result').innerHTML = "Goal achieved! Exceeded by " + Math.abs(remainingPoints) + " Points";
+            document.getElementById('result').innerHTML = "Goal achieved! Exceeded by " + Math.round(Math.abs(remainingPoints)) + " Points";
         } else if (currentScore == goal) {
             document.getElementById('result').innerHTML = "Goal has been achieved! ";
         }  else {
