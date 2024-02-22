@@ -14,6 +14,7 @@ function calculatePoints() {
         var totalSurvey = promoter + neutral + detractor;
         var currentScore = ((promoter - detractor) / totalSurvey) * 100;
         var remainingPoints = ((currentScore * totalSurvey) + detractor) / 100;
+        console.log(remainingPoints)
 
         // Update the score display
         document.getElementById('score').innerHTML = "Current Score: " + Math.round(currentScore);
