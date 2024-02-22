@@ -13,7 +13,7 @@ function calculatePoints() {
 
         var totalSurvey = promoter + neutral + detractor;
         var currentScore = ((promoter - detractor) / totalSurvey) * 100;
-        var remainingPoints = ((currentScore * totalSurvey) + detractor) / 100;
+        var remainingPoints = (currentScore * totalSurvey + detractor) / 100;
         var achivedGoalPoints = currentScore - goal;
 
         // Update the score display
