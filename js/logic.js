@@ -3,11 +3,11 @@ var pieChart;
 function calculatePoints() {
     try {
         var promoter = parseFloat(document.getElementById('promoter').value);
-        var detractor = parseFloat(document.getElementById('detractor').value);
         var neutral = parseFloat(document.getElementById('neutral').value);
+        var detractor = parseFloat(document.getElementById('detractor').value);
         var goal = parseFloat(document.getElementById('goal').value);
 
-        if (isNaN(promoter) || isNaN(detractor) || isNaN(totalSurvey) || isNaN(goal)) {
+        if (isNaN(promoter) || isNaN(neutral) || isNaN(detractor) || isNaN(goal)) {
             throw new Error("Please enter numbers only.");
         }
 
