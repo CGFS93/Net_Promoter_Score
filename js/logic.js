@@ -11,9 +11,8 @@ function calculatePoints() {
             throw new Error("Please enter numbers only.");
         }
 
-        var totalSurvey = promoter + neutral + detractor;
-        var currentScore = Math.round(((promoter - detractor) / totalSurvey) * 100);
-        var remainingPoints = (goal * totalSurvey + detractor) / 100;
+        var currentScore = nps_calculator(promoter, neutral, detractor);
+        var remainingPoints = promoter_target_count(promoter, neutral, detractor, goal);
 
         // Update the score display
         document.getElementById('score').innerHTML = "Current Score: " + currentScore;
@@ -31,9 +30,9 @@ function calculatePoints() {
         }
 
         if (currentScore < goal) {
-            document.getElementById('result').innerHTML = "Remaining promoters to reach goal: " + Math.round(Math.abs(remainingPoints));
+            document.getElementById('result').innerHTML = "Remaining promoters to reach goal: " + remainingPoints;
         } else if (currentScore > goal) {
-            document.getElementById('result').innerHTML = "Goal achieved! Exceeded by " + Math.round(Math.abs(remainingPoints)) + " Points";
+            document.getElementById('result').innerHTML = "Goal achieved! Exceeded by " + remainingPoints + " Promoters";
         } else if (currentScore == goal) {
             document.getElementById('result').innerHTML = "Goal has been achieved! ";
         }  else {
@@ -62,3 +61,42 @@ function correctPercent(percent) {
         return 100 - percent;
     }
 }
+
+function promoter_target_count(promoter, neutral, detractor, target, promoter_sum=false, new_nps=false, to_target=true) {
+    // Initiate NPS equation 
+    let total = promoter + neutral + detractor;
+    let score = Math.round(((promoter - detractor) / total) * 100);
+
+    // Initiate count
+    let survey_count = 0;
+
+    while (score < target) {
+        // Update score with every loop
+        score = Math.round(((promoter - detractor) / total) * 100);
+
+        // add count count to key variable
+        total += 1;
+        survey_count += 1;
+        promoter += 1;
+    }
+
+    if (promoter_sum) {
+        return promoter;
+    } else if (new_nps) {
+        return score;
+    } else if (to_target) {
+        return survey_count;
+    } else {    
+        return [`Promoters to target: ${survey_count}`, `Total promoters to target: ${promoter}`, `New NPS: ${score}`];
+    }
+}
+
+
+// Net Promoter Score Calculation
+function nps_calculator(promoter, neutral, detractor) {
+    let total_responders = promoter + neutral + detractor;
+    let nps_score = Math.round(((promoter - detractor) / total_responders) * 100);
+
+    return nps_score;
+}
+
