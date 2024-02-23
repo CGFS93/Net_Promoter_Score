@@ -91,8 +91,6 @@ function promoter_target_count(promoter, neutral, detractor, target, promoter_su
     }
 }
 
-
-// Net Promoter Score Calculation
 function nps_calculator(promoter, neutral, detractor) {
     let total_responders = promoter + neutral + detractor;
     let nps_score = Math.round(((promoter - detractor) / total_responders) * 100);
