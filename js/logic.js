@@ -70,14 +70,16 @@ function promoter_target_count(promoter, neutral, detractor, target, promoter_su
     // Initiate count
     let survey_count = 0;
 
-    while (score < target) {
-        // Update score with every loop
-        score = Math.round(((promoter - detractor) / total) * 100);
+    while (score < target && score !== target) {
 
         // add count count to key variable
         total += 1;
         survey_count += 1;
         promoter += 1;
+        
+        // Update score with every loop
+        score = Math.round(((promoter - detractor) / total) * 100);
+
     }
 
     if (promoter_sum) {
