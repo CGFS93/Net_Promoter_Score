@@ -32,7 +32,7 @@ function calculatePoints() {
         if (currentScore < goal) {
             document.getElementById('result').innerHTML = "Remaining promoters to reach goal: " + remainingPoints;
         } else if (currentScore > goal) {
-            document.getElementById('result').innerHTML = "Goal achieved! Exceeded by " + remainingPoints + " Promoters";
+            document.getElementById('result').innerHTML = "Goal achieved & Exceeded!";
         } else if (currentScore == goal) {
             document.getElementById('result').innerHTML = "Goal has been achieved! ";
         }  else {
