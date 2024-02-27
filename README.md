@@ -1,5 +1,7 @@
 ### Net Promoter Score Calculator Documentation
 
+*Version 1.2*
+
 #### Introduction
 This documentation provides an overview of the Net Promoter Score (NPS) Calculator application, including its purpose, usage, and functionality.
 
@@ -9,48 +11,25 @@ The Net Promoter Score (NPS) Calculator is a web-based tool designed to calculat
 #### Usage
 Users can input the number of promoters, neutral respondents, detractors, and a target score into the provided form. Upon submission, the application calculates the current NPS score, determines the progress towards the target score, and visualizes the data using a pie chart.
 
-#### HTML Structure
-- The HTML structure consists of a form containing input fields for the number of promoters, neutral respondents, detractors, and the target score.
-- The calculated score and result are displayed below the form.
-- A pie chart is used to visualize the progress towards the target score.
+Documentation for Updates to `updatePieChart` Function:
 
-#### JavaScript Functions
+1. **Progress and Remaining Percentage Calculation**:
+   - Revised the calculation of `progressPercentage` and `remainingPercentage` to accurately reflect progress towards the goal.
+   - Addressed various scenarios such as when the goal is 0, when the current score is negative, and when the current score exceeds the goal.
+   - Ensured that edge cases are properly handled to prevent incorrect percentage values.
 
-1. **calculatePoints()**
-   - Calculates the current NPS score and progress towards the target score.
-   - Updates the score display and result.
-   - Calls the function to update the pie chart.
+2. **Chart Update**:
+   - Implemented a check to see if an existing chart instance exists before creating a new one.
+   - If an existing chart instance is found, it is destroyed to prevent memory leaks and ensure proper chart updates.
+   - This helps maintain the integrity of the chart display and prevents potential conflicts between multiple chart instances.
 
-2. **promoter_target_count(promoter, neutral, detractor, target, promoter_sum=false, new_nps=false, to_target=true)**
-   - Calculates the number of additional promoters needed to reach the target score.
-   - Returns the count of additional promoters or the new NPS score depending on the parameters.
+3. **Error Handling and Debugging**:
+   - Added comments throughout the code to clarify the purpose of each section and highlight areas that may need review.
+   - Implemented console log statements to output progress and remaining percentages, aiding in debugging and verifying the correctness of calculations.
 
-3. **nps_calculator(promoter, neutral, detractor)**
-   - Calculates the NPS score based on the number of promoters, neutral respondents, and detractors.
+4. **Code Structure and Readability**:
+   - Reviewed the code structure to ensure readability and maintainability.
+   - Employed consistent naming conventions and indentation for better code organization.
+   - Provided comments to explain complex logic and ensure clarity for future maintenance.
 
-4. **updatePieChart(currentScore, goal)**
-   - Updates the pie chart with the percentage achieved and percentage remaining to the goal.
-   - Destroys the previous chart instance before creating a new one.
-
-5. **triggerReflow()**
-   - Triggers a reflow to ensure proper rendering of the chart when the window is focused.
-
-6. **focusNextInput(currentInput, nextInputId)**
-   - Shifts focus to the next input field upon user input.
-
-7. **submitIfLastInput(currentInput)**
-   - Submits the form if the last input field is filled.
-
-#### External Libraries
-- **Chart.js**: Used to create and display the pie chart visualizing the progress towards the target score.
-
-#### Dependencies
-- CSS styles are included for styling the application.
-- JavaScript files (`logic.js`, `chart.js`, `iphone.js`) contain the application logic, chart configuration, and additional functionality.
-
-#### Compatibility
-- The application is compatible with modern web browsers.
-- Responsive design ensures usability across various devices.
-
-#### Conclusion
-The Net Promoter Score Calculator provides a simple yet effective way to calculate and visualize NPS scores, helping businesses gauge customer satisfaction and make informed decisions to improve their products or services.
+These updates aim to enhance the functionality and reliability of the `updatePieChart` function, ensuring accurate calculation and display of progress and remaining percentages while maintaining code readability and robustness.

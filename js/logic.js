@@ -46,24 +46,8 @@ function calculatePoints() {
     }
 }
 
-function calculatePercentage(score, target) {
-    if (target === 0) {
-        return 0;
-    } else {
-        return (score / target) * 100;
-    }
-}
-
-function correctPercent(percent) {
-    if (percent > 100) {
-        return 0;
-    } else {
-        return 100 - percent;
-    }
-}
-
 function promoter_target_count(promoter, neutral, detractor, target, promoter_sum=false, new_nps=false, to_target=true) {
-    // Initiate NPS equation 
+    // Initiate NPS equation
     let total = promoter + neutral + detractor;
     let score = Math.round(((promoter - detractor) / total) * 100);
 
@@ -76,7 +60,7 @@ function promoter_target_count(promoter, neutral, detractor, target, promoter_su
         total += 1;
         survey_count += 1;
         promoter += 1;
-        
+
         // Update score with every loop
         score = Math.round(((promoter - detractor) / total) * 100);
 
@@ -88,7 +72,7 @@ function promoter_target_count(promoter, neutral, detractor, target, promoter_su
         return score;
     } else if (to_target) {
         return survey_count;
-    } else {    
+    } else {
         return [`Promoters to target: ${survey_count}`, `Total promoters to target: ${promoter}`, `New NPS: ${score}`];
     }
 }
@@ -99,4 +83,3 @@ function nps_calculator(promoter, neutral, detractor) {
 
     return nps_score;
 }
-
