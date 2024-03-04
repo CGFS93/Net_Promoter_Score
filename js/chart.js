@@ -8,22 +8,22 @@ function updatePieChart(currentScore, goal) {
         canvas.chart.destroy();
     }
 
-    // Set conditions for percent on pie chart
+    // Set conditions on percent
     if (currentScore > goal && goal != 0) {
         progressPercentage = Math.abs((currentScore / goal) * 100)
         remainingPercentage = 0
     } else if (currentScore > goal && goal <= 0) {
         progressPercentage = Math.abs((currentScore + 100))
         remainingPercentage = 0
-    } else if (currentScore < goal && goal != 0 && currentScore >= 0) {
-        remainingPercentage = Math.abs((currentScore / goal) * 100)
-        progressPercentage = 100 - remainingPercentage
+    } else if (currentScore < goal && goal != 0 && currentScore > 0) {
+        progressPercentage = Math.abs((currentScore / goal) * 100);
+        remainingPercentage = 100 - progressPercentage;
     } else if (currentScore == goal) {
         progressPercentage = 100
         remainingPercentage = 0
     } else if (currentScore <= 0 | goal <= 0 ) {
         progressPercentage = 0
-        remainingPercentage = 200 - currentScore
+        remainingPercentage = 100 - currentScore
     }
 
 
