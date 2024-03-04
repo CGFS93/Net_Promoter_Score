@@ -17,7 +17,7 @@ function updatePieChart(currentScore, goal) {
     } else if (currentScore > goal && goal <= 0) {
         progressPercentage = Math.abs((currentScore + 100));
         remainingPercentage = 0;
-    } else if (currentScore < goal && goal > 0 && currentScore > 0) {
+    } else if (currentScore < goal && goal != 0 && currentScore > 0) {
         progressPercentage = Math.abs((currentScore / goal) * 100);
         remainingPercentage = 100 - remainingPercentage;
     } else if (currentScore == goal) {
