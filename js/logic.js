@@ -19,17 +19,22 @@ function calculatePoints() {
 
         // Get the score display element
         var scoreDisplay = document.getElementById('score');
+        var goalAchieved = document.getElementById('result');
+
 
         // Add color based on the score
         if (currentScore < goal) {
             scoreDisplay.style.color = 'red';
-        } else if (currentScore > goal) {
+            goalAchieved.style.color = 'red';
+        } else if (currentScore >= goal) {
             scoreDisplay.style.color = 'green';
+            goalAchieved.style.color = 'green';
         } else {
             scoreDisplay.style.color = 'blue';
         }
 
         if (currentScore < goal) {
+            document.getElementById('total').innerHTML = "Total promoters to reach goal: " + (remainingPoints + promoter);
             document.getElementById('result').innerHTML = "Remaining promoters to reach goal: " + remainingPoints;
         } else if (currentScore > goal) {
             document.getElementById('result').innerHTML = "Goal achieved & Exceeded!";
@@ -37,6 +42,7 @@ function calculatePoints() {
             document.getElementById('result').innerHTML = "Goal has been achieved! ";
         }  else {
             document.getElementById('result').innerHTML = "Score is not available";
+            document.getElementById('total').innerHTML = "";
         }
 
         updatePieChart(currentScore, goal);

@@ -8,54 +8,31 @@ function updatePieChart(currentScore, goal) {
         canvas.chart.destroy();
     }
 
-// Define the countingToZero function
-function countingToZero(currentScore) {
-    let count = 0;
-    while (currentScore < 0) {
-        count += 1;
-        currentScore += 1;
-    }
-    return count/100;
-}
+    // Calculate progress and remaining percentages based on currentScore and goal
+    let progressPercentage, remainingPercentage;
 
-
-// Calculate percentage of progress
-let progressPercentage, remainingPercentage;
-
-if (goal === 0) {
-    if (currentScore === 0) {
+    if (currentScore > goal && goal > 0) {
+        progressPercentage = Math.abs((currentScore / goal) * 100);
+        remainingPercentage = 0;
+    } else if (currentScore > goal && goal <= 0) {
+        progressPercentage = Math.abs((currentScore + 100));
+        remainingPercentage = 0;
+    } else if (currentScore < goal && goal > 0 && currentScore >= 0) {
+        remainingPercentage = Math.abs((currentScore / goal) * 100);
+        progressPercentage = 100 - remainingPercentage;
+    } else if (currentScore == goal) {
         progressPercentage = 100;
         remainingPercentage = 0;
-    } else if (currentScore < 0) {
-        progressPercentage = 100 - progressPercentage;
-        remainingPercentage = countingToZero(currentScore) * 100;
-    } else {
-        progressPercentage = (currentScore / goal) * 100;
-        remainingPercentage = 100 - progressPercentage;
+    } else if (currentScore <= 0 || goal <= 0) {
+        progressPercentage = 0;
+        remainingPercentage = (100 + Math.abs(goal)) - currentScore;
     }
-}
-    if (currentScore <= 0) {
-        progressPercentage = 0
-        remainingPercentage = Math.abs(currentScore)  + goal
-    } else if (currentScore > goal) {
-        progressPercentage = currentScore + goal
-        remainingPercentage = 0
-    }
-
-// Handle edge cases
-if (progressPercentage < 0) {
-    progressPercentage = 0;
-    remainingPercentage = 100;
-} else if (progressPercentage > 100) {
-    progressPercentage = currentScore + 75;
-    remainingPercentage = 0;
-}
 
     // Set colors based on whether current score exceeds the target or not
     const backgroundColor = (progressPercentage >= 100) ? ['rgba(255, 0, 0)', 'rgba(255, 99, 132, 0.6)'] : ['rgba(255, 0, 0)', 'rgba(255, 99, 132, 0.6)'];
 
     // Create the doughnut chart
-    const updatePieChart = new Chart(ctx, {
+    const pieChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
             datasets: [{
@@ -68,5 +45,14 @@ if (progressPercentage < 0) {
     });
 
     // Store the chart instance with the canvas element
-    canvas.chart = updatePieChart;
+    canvas.chart = pieChart;
+
+    // Style mouse hover pointer
+    canvas.addEventListener('mouseenter', function() {
+        this.style.cursor = 'pointer';
+    });
+
+    canvas.addEventListener('mouseleave', function() {
+        this.innerHTML = '';
+    });
 }
