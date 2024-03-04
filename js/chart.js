@@ -8,31 +8,30 @@ function updatePieChart(currentScore, goal) {
         canvas.chart.destroy();
     }
 
-    // Calculate progress and remaining percentages based on currentScore and goal
-    let progressPercentage, remainingPercentage;
-
-    if (currentScore > goal && goal > 0) {
-        progressPercentage = Math.abs((currentScore / goal) * 100);
-        remainingPercentage = 0;
+    // Set conditions for percent on pie chart
+    if (currentScore > goal && goal != 0) {
+        progressPercentage = Math.abs((currentScore / goal) * 100)
+        remainingPercentage = 0
     } else if (currentScore > goal && goal <= 0) {
-        progressPercentage = Math.abs((currentScore + 100));
-        remainingPercentage = 0;
-    } else if (currentScore < goal && goal != 0 && currentScore > 0) {
-        progressPercentage = Math.abs((currentScore / goal) * 100);
-        remainingPercentage = 100 - remainingPercentage;
+        progressPercentage = Math.abs((currentScore + 100))
+        remainingPercentage = 0
+    } else if (currentScore < goal && goal != 0 && currentScore >= 0) {
+        remainingPercentage = Math.abs((currentScore / goal) * 100)
+        progressPercentage = 100 - remainingPercentage
     } else if (currentScore == goal) {
-        progressPercentage = 100;
-        remainingPercentage = 0;
-    } else if (currentScore <= 0 | goal <= 0) {
-        progressPercentage = 0;
-        remainingPercentage = (100 + Math.abs(goal)) - currentScore;
+        progressPercentage = 100
+        remainingPercentage = 0
+    } else if (currentScore <= 0 | goal <= 0 ) {
+        progressPercentage = 0
+        remainingPercentage = 200 - currentScore
     }
+
 
     // Set colors based on whether current score exceeds the target or not
     const backgroundColor = (progressPercentage >= 100) ? ['rgba(255, 0, 0)', 'rgba(255, 99, 132, 0.6)'] : ['rgba(255, 0, 0)', 'rgba(255, 99, 132, 0.6)'];
 
     // Create the doughnut chart
-    const pieChart = new Chart(ctx, {
+    const updatePieChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
             datasets: [{
@@ -45,14 +44,5 @@ function updatePieChart(currentScore, goal) {
     });
 
     // Store the chart instance with the canvas element
-    canvas.chart = pieChart;
-
-    // Style mouse hover pointer
-    canvas.addEventListener('mouseenter', function() {
-        this.style.cursor = 'pointer';
-    });
-
-    canvas.addEventListener('mouseleave', function() {
-        this.innerHTML = '';
-    });
+    canvas.chart = updatePieChart;
 }
