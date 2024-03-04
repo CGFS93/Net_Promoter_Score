@@ -38,8 +38,10 @@ function calculatePoints() {
             document.getElementById('result').innerHTML = "Remaining promoters to reach goal: " + remainingPoints;
         } else if (currentScore > goal) {
             document.getElementById('result').innerHTML = "Goal achieved & Exceeded!";
+            document.getElementById('total').innerHTML = "";
         } else if (currentScore == goal) {
             document.getElementById('result').innerHTML = "Goal has been achieved! ";
+            document.getElementById('total').innerHTML = "";
         }  else {
             document.getElementById('result').innerHTML = "Score is not available";
             document.getElementById('total').innerHTML = "";
