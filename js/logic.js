@@ -38,13 +38,13 @@ function calculatePoints() {
             document.getElementById('result').innerHTML = "Remaining promoters to reach goal: " + remainingPoints;
         } else if (currentScore > goal) {
             document.getElementById('result').innerHTML = "Goal achieved & Exceeded!";
-            document.getElementById('total').innerHTML = "";
+            document.getElementById('total').style.display = 'none';
         } else if (currentScore == goal) {
             document.getElementById('result').innerHTML = "Goal has been achieved! ";
-            document.getElementById('total').innerHTML = "";
+            document.getElementById('total').style.display = 'none';
         }  else {
             document.getElementById('result').innerHTML = "Score is not available";
-            document.getElementById('total').innerHTML = "";
+            document.getElementById('total').style.display = 'none';
         }
 
         updatePieChart(currentScore, goal);
